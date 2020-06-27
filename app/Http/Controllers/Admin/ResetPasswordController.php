@@ -7,7 +7,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
-
+use Illuminate\Http\Request;
 class ResetPasswordController extends Controller
 {
     /*
@@ -30,9 +30,17 @@ class ResetPasswordController extends Controller
      */
     protected $redirectTo = RouteServiceProvider::ADMIN_HOME;
 
-    public function resetPassword($token){
-        return view('admin.auth.reset',compact('token'));
+    // public function resetPassword($token){
+    //     return view('admin.auth.reset',compact('token'));
+    // }
+
+    public function showResetForm(Request $request, $token = null)
+    {
+        return view('admin.auth.reset')->with(
+            ['token' => $token, 'email' => $request->email]
+        );
     }
+   
     public function broker()
     {
         return Password::broker('admins');
